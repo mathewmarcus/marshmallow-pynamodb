@@ -20,7 +20,7 @@ class ModelMeta(SchemaMeta):
             attributes = {name: attr for name, attr in vars(klass.opts.model).iteritems() if
                           isinstance(attr, Attribute)}
             for attr_name, attribute in attributes.iteritems():
-                field = converter.attribute2field(attribute)
+                field = converter.attribute2field(attribute)()
                 if attribute.is_hash_key or attribute.is_range_key or not attribute.null:
                     field.required = True
 

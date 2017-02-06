@@ -6,12 +6,12 @@ from pynamodb import attributes
 class ModelConverter(object):
 
     PYNAMODB_TYPE_MAPPING = {
-        attributes.MapAttribute: fields.Dict(),
-        attributes.JSONAttribute: fields.Raw(),
-        attributes.UnicodeAttribute: fields.String(),
-        attributes.BooleanAttribute: fields.Boolean(),
-        attributes.UTCDateTimeAttribute: fields.DateTime(),
-        attributes.ListAttribute: fields.Raw()
+        attributes.MapAttribute: fields.Dict,
+        attributes.JSONAttribute: fields.Raw,
+        attributes.UnicodeAttribute: fields.String,
+        attributes.BooleanAttribute: fields.Boolean,
+        attributes.UTCDateTimeAttribute: fields.DateTime,
+        attributes.ListAttribute: fields.Raw
     }
 
     @property
