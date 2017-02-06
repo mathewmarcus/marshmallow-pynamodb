@@ -13,7 +13,6 @@ class ModelOpts(SchemaOpts):
 
 
 class ModelMeta(SchemaMeta):
-
     @classmethod
     def get_declared_fields(mcs, klass, cls_fields, inherited_fields, dict_cls):
         declared_fields = super(ModelMeta, mcs).get_declared_fields(klass, cls_fields, inherited_fields, dict_cls)
