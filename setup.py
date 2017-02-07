@@ -7,7 +7,7 @@ setup(
     description='PynamoDB integration with the marshmallow (de)serialization library',
     author='Mathew Marcus',
     author_email='mathewmarcus456@gmail.com',
-    url='www.mathewmarcus.com',
+    long_description=open('README.rst').read(),
     install_requires=[
         "marshmallow>=2.12.2",
         "pynamodb>=2.0.3",
