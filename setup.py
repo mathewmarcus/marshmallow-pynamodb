@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="pyoneer",
+    name="marshmallow-pynamodb",
     version="0.1.0",
     packages=find_packages(),
     description='PynamoDB integration with the marshmallow (de)serialization library',
