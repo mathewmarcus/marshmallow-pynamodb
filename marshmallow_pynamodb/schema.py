@@ -1,7 +1,7 @@
 from marshmallow import Schema, SchemaOpts, post_load
 from marshmallow.schema import SchemaMeta
 from pynamodb.attributes import Attribute
-from marshmallow_pynamo.convert import converter
+from marshmallow_pynamodb.convert import converter
 
 from six import with_metaclass
 
