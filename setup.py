@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="marshmallow-pynamodb",
-    version="0.1.1",
+    version="0.1.4",
     packages=find_packages(),
     description='PynamoDB integration with the marshmallow (de)serialization library',
     author='Mathew Marcus',
