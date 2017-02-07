@@ -52,10 +52,10 @@ Generate marshmallow schemas
 
     user = User(last_name="Smith", first_name="John")
 
-    author_schema.dump(user).data
+    user_schema.dump(user).data
     # {u'first_name': u'John', u'last_name': u'Smith', u'email': None}
 
-    author_schema.load({"last_name": "Smith", "first_name": "John"}).data
+    user_schema.load({"last_name": "Smith", "first_name": "John"}).data
     # user<Smith>
 
 .. |pypi-package| image:: https://badge.fury.io/py/marshmallow-pynamodb.svg
