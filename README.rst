@@ -55,3 +55,7 @@ Generate marshmallow schemas
 
     author_schema.load({"last_name": "Smith", "first_name": "John"}).data
     # user<Smith>
+
+.. |pypi-package| image:: https://badge.fury.io/py/marshmallow-pynamodb.svg
+    :target: http://badge.fury.io/py/marshmallow-pynamodb
+    :alt: Latest version
