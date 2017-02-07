@@ -2,6 +2,8 @@
 marshmallow-pynamodb
 ========
 
+|pypi-package|
+
 `PynamoDB <https://pynamodb.readthedocs.io/en/latest/>`_ integration with the  `marshmallow <https://marshmallow.readthedocs.io/en/latest/>`_ (de)serialization library.
 
 Installation
