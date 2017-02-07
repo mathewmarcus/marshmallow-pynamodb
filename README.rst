@@ -25,7 +25,6 @@ Declare your models
     class User(Model):
         class Meta:
             table_name = "user"
-            host = "http://localhost:8001"
         email = UnicodeAttribute(null=True)
         first_name = UnicodeAttribute(range_key=True)
         last_name = UnicodeAttribute(hash_key=True)
