@@ -65,4 +65,4 @@ Generate marshmallow schemas
 License
 =======
 
-MIT licensed. See the bundled `LICENSE <https://github.com/marshmallow-code/marshmallow-sqlalchemy/blob/dev/LICENSE.txt>`_ file for more details.
+MIT licensed. See the bundled `LICENSE https://github.com/mathewmarcus/marshmallow-pynamodb/blob/master/LICENSE.txt`_ file for more details.
