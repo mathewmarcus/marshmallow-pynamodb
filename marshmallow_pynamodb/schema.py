@@ -10,6 +10,8 @@ class ModelOpts(SchemaOpts):
     def __init__(self, meta):
         SchemaOpts.__init__(self, meta)
         self.model = getattr(meta, 'model', None)
+        self.validate = getattr(meta, 'validate', False)
+        self.sync = getattr(meta, 'sync', False)
 
 
 class ModelMeta(SchemaMeta):
