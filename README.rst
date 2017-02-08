@@ -61,3 +61,8 @@ Generate marshmallow schemas
 .. |pypi-package| image:: https://badge.fury.io/py/marshmallow-pynamodb.svg
     :target: http://badge.fury.io/py/marshmallow-pynamodb
     :alt: Latest version
+
+License
+=======
+
+MIT licensed. See the bundled `LICENSE <https://github.com/marshmallow-code/marshmallow-sqlalchemy/blob/dev/LICENSE.txt>`_ file for more details.
