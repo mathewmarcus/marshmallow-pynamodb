@@ -1,7 +1,7 @@
-from marshmallow import Schema, SchemaOpts, post_load
+from marshmallow import Schema, SchemaOpts, post_load, fields
 from marshmallow.schema import SchemaMeta
 from pynamodb.attributes import Attribute
-from marshmallow_pynamodb.convert import converter
+from marshmallow_pynamodb.convert import attribute2field
 
 from six import with_metaclass
 
@@ -22,7 +22,23 @@ class ModelMeta(SchemaMeta):
             attributes = {name: attr for name, attr in vars(klass.opts.model).iteritems() if
                           isinstance(attr, Attribute)}
             for attr_name, attribute in attributes.iteritems():
-                field = converter.attribute2field(attribute)()
+                field = attribute2field(attribute, klass.opts.validate)
+
+                if field == fields.Nested:
+                    class Meta:
+                        model = type(attribute)
+                        validate = True
+                    sub_model = type(attr_name, (klass, ), {'Meta': Meta})
+                    field = field(sub_model)
+                elif field == fields.List:
+                    class Meta:
+                        model = attribute.element_type
+                        validate = True
+                    element_type = type(attr_name, (klass, ), {'Meta': Meta})
+                    field = field(fields.Nested(element_type))
+                else:
+                    field = field()
+
                 if attribute.is_hash_key or attribute.is_range_key or not attribute.null:
                     field.required = True
 
