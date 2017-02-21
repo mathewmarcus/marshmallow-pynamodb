@@ -24,10 +24,12 @@ class ModelMeta(SchemaMeta):
                 field = attribute2field(attribute, klass.opts.validate)
 
                 if field == fields.Nested:
+                    instance_of = type(attribute)
+
                     class Meta:
-                        model = type(attribute)
+                        model = instance_of
                         validate = True
-                    sub_model = type(attr_name, (klass, ), {'Meta': Meta})
+                    sub_model = type(instance_of.__name__, (klass, ), {'Meta': Meta})
                     field = field(sub_model)
                 elif field == fields.List:
                     class Meta:
