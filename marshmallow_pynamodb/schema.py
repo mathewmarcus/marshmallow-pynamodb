@@ -1,8 +1,7 @@
 from marshmallow import Schema, SchemaOpts, post_load, fields
 from marshmallow.schema import SchemaMeta
-from pynamodb.attributes import Attribute
 from marshmallow_pynamodb.convert import attribute2field
-
+from pynamodb.attributes import Attribute
 from six import with_metaclass
 
 
@@ -34,7 +33,7 @@ class ModelMeta(SchemaMeta):
                     class Meta:
                         model = attribute.element_type
                         validate = True
-                    element_type = type(attr_name, (klass, ), {'Meta': Meta})
+                    element_type = type(attribute.element_type.__name__, (klass, ), {'Meta': Meta})
                     field = field(fields.Nested(element_type))
                 else:
                     field = field()
