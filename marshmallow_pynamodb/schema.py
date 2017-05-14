@@ -10,7 +10,6 @@ class ModelOpts(SchemaOpts):
         SchemaOpts.__init__(self, meta)
         self.model = getattr(meta, 'model', None)
         self.validate = getattr(meta, 'validate', False)
-        self.sync = getattr(meta, 'sync', False)
 
 
 class ModelMeta(SchemaMeta):
@@ -42,14 +41,36 @@ class ModelMeta(SchemaMeta):
 
                 if attribute.is_hash_key or attribute.is_range_key or not attribute.null:
                     field.required = True
+                    if attribute.is_hash_key:
+                        field.description = 'hash key'
+                    elif attribute.is_range_key:
+                        field.description = 'range key'
 
-                declared_fields[attr_name] = field
+                field_name = attribute.attr_name if attribute.attr_name else attr_name
+                declared_fields[field_name] = field
         return declared_fields
 
 
 class ModelSchema(with_metaclass(ModelMeta, Schema)):
     OPTIONS_CLASS = ModelOpts
 
-    @post_load
-    def hydrate_pynamo_model(self, data, sync=False):
-        return self.opts.model(**data)
+    @post_load(pass_original=True)
+    def hydrate_pynamo_model(self, data, orig_data):
+        hash_key, range_key = self._get_hash_and_range_key(orig_data)
+        return self.opts.model(hash_key=hash_key, range_key=range_key, **orig_data)
+
+    def _get_hash_and_range_key(self, data):
+        hash_key = None
+        range_key = None
+
+        for field_name, field_value in self.declared_fields.iteritems():
+            if hash_key and range_key:
+                break
+            elif getattr(field_value, 'description', None) == 'hash key':
+                hash_key = data.get(field_name)
+                del data[field_name]
+            elif getattr(field_value, 'description', None) == 'range key':
+                range_key = data.get(field_name)
+                del data[field_name]
+
+        return hash_key, range_key
