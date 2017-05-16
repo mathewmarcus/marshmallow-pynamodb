@@ -35,6 +35,10 @@ class Office(Model):
 
 
 class TestModelSchema(TestCase):
+    def setUp(self):
+        if not Office.exists():
+            Office.create_table(read_capacity_units=1, write_capacity_units=1)
+
     def test_validated_load(self):
         class OfficeSchema(ModelSchema):
             class Meta:
