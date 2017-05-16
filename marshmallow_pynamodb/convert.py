@@ -3,7 +3,7 @@ from marshmallow import fields
 from pynamodb import attributes
 
 PYNAMODB_TYPE_MAPPING = {
-    attributes.NumberAttribute: fields.Decimal,
+    attributes.NumberAttribute: fields.Number,
     attributes.JSONAttribute: fields.Raw,
     attributes.UnicodeAttribute: fields.String,
     attributes.BooleanAttribute: fields.Boolean,
