@@ -75,6 +75,21 @@ class TestValidatedModelSchema(TestCase):
         self.assertDictEqual(errors, {})
         self.assertDictEqual(data.attribute_values, expected_model.attribute_values)
 
+    def test_load_fails_dict_level_0(self):
+        attrs['office_id'] = 'foobar'
+
+        data, errors = OfficeSchema().load(attrs)
+
+        self.assertDictEqual(errors, {'office_id': [u'Not a valid number.']})
+
+    def test_load_fails_dict_level_gt_0(self):
+        attrs['office_id'] = hash_key
+        attrs['employees'][0]['office_location']['latitude'] = 'foobar'
+
+        data, errors = OfficeSchema().load(attrs)
+
+        self.assertDictEqual(errors, {'employees': {0: {'office_location': {'latitude': [u'Not a valid number.']}}}})
+
     def test_dump(self):
         model = Office(hash_key=hash_key, **attrs)
         attrs['office_id'] = hash_key
