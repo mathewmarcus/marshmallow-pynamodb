@@ -29,13 +29,13 @@ class ModelMeta(SchemaMeta):
                     class Meta:
                         model = instance_of
                         validate = True
-                    sub_model = type(instance_of.__name__, (klass, ), {'Meta': Meta})
+                    sub_model = type(instance_of.__name__, (ModelSchema, ), {'Meta': Meta})
                     field = field(sub_model)
                 elif field == fields.List:
                     class Meta:
                         model = attribute.element_type
                         validate = True
-                    element_type = type(attribute.element_type.__name__, (klass, ), {'Meta': Meta})
+                    element_type = type(attribute.element_type.__name__, (ModelSchema, ), {'Meta': Meta})
                     field = field(fields.Nested(element_type))
                 else:
                     field = field()
