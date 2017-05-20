@@ -1,2 +1,2 @@
 marshmallow>=2.12.2
-pynamodb~=2.0.3
+pynamodb>=2.0.3

@@ -7,14 +7,14 @@ from unittest import TestCase
 
 
 class Location(MapAttribute):
-    lat = NumberAttribute(attr_name='latitude')
-    lng = NumberAttribute(attr_name='longitude')
+    latitude = NumberAttribute()
+    longitude = NumberAttribute()
     name = UnicodeAttribute()
 
 
 class Person(MapAttribute):
-    fname = UnicodeAttribute(attr_name='firstName')
-    lname = UnicodeAttribute(attr_name='lastName')
+    firstName = UnicodeAttribute()
+    lastName = UnicodeAttribute()
     age = NumberAttribute()
 
 
@@ -65,14 +65,16 @@ class TestValidatedModelSchema(TestCase):
             Office.create_table(read_capacity_units=1, write_capacity_units=1)
 
     def test_load(self):
-        expected_model = Office(hash_key=hash_key, **attrs)
         attrs['office_id'] = hash_key
 
         data, errors = OfficeSchema().load(attrs)
 
         self.assertTrue(getattr(OfficeSchema, '_declared_fields')['office_id'].required)
         self.assertDictEqual(errors, {})
-        self.assertDictEqual(data.attribute_values, expected_model.attribute_values)
+
+        self.assertIsInstance(data, Office)
+        self.assertIsInstance(data.attribute_values['address'], Location)
+        self.assertListEqual(data.attribute_values['employees'], attrs['employees'])
 
     def test_load_fails_dict_level_0(self):
         attrs['office_id'] = 'foobar'
