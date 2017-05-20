@@ -55,8 +55,8 @@ class ModelMeta(SchemaMeta):
 class ModelSchema(with_metaclass(ModelMeta, Schema)):
     OPTIONS_CLASS = ModelOpts
 
-    @post_load(pass_original=True)
-    def hydrate_pynamo_model(self, data, orig_data):
-        hash_key = orig_data.pop(getattr(self.opts, 'hash_key', None), None)
-        range_key = orig_data.pop(getattr(self.opts, 'range_key', None), None)
-        return self.opts.model(hash_key=hash_key, range_key=range_key, **orig_data)
+    @post_load
+    def hydrate_pynamo_model(self, data):
+        hash_key = data.pop(getattr(self.opts, 'hash_key', None), None)
+        range_key = data.pop(getattr(self.opts, 'range_key', None), None)
+        return self.opts.model(hash_key=hash_key, range_key=range_key, **data)
