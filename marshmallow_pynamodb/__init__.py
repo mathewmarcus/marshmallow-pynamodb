@@ -1,1 +1,1 @@
-from schema import ModelSchema
+from .schema import ModelSchema
