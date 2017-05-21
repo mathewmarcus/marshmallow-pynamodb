@@ -1,7 +1,6 @@
 language: python
 sudo: required
 python:
-  - "3.4"
   - "2.7"
   - "pypy"
 env:
