@@ -65,6 +65,11 @@ Nested models? No problem
 
 .. code-block:: python
 
+    from marshmallow_pynamodb.schema import ModelSchema
+
+    from pynamodb.models import Model
+    from pynamodb.attributes import ListAttribute, MapAttribute, NumberAttribute, UnicodeAttribute
+
     class Location(MapAttribute):
         latitude = NumberAttribute()
         longitude = NumberAttribute()
