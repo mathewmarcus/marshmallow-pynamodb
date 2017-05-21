@@ -1,4 +1,4 @@
-from marshmallow_pynamodb.schema import ModelSchema
+from marshmallow_pynamodb import ModelSchema
 
 from pynamodb.attributes import ListAttribute, MapAttribute, NumberAttribute, UnicodeAttribute
 from pynamodb.models import Model
