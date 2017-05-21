@@ -2,6 +2,8 @@ from marshmallow import fields
 
 from pynamodb import attributes
 
+from marshmallow_pynamodb.fields import PynamoDict
+
 PYNAMODB_TYPE_MAPPING = {
     attributes.NumberAttribute: fields.Number,
     attributes.JSONAttribute: fields.Raw,
@@ -9,7 +11,7 @@ PYNAMODB_TYPE_MAPPING = {
     attributes.BooleanAttribute: fields.Boolean,
     attributes.UTCDateTimeAttribute: fields.DateTime,
     attributes.MapAttributeMeta: {True: fields.Nested,
-                                  False: fields.Dict},
+                                  False: PynamoDict},
     attributes.ListAttribute: {True: fields.List,
                                False: fields.Raw}
 }
