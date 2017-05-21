@@ -2,7 +2,7 @@ from marshmallow import Schema, SchemaOpts, post_load, fields
 from marshmallow.schema import SchemaMeta
 from marshmallow_pynamodb.convert import attribute2field
 from pynamodb.attributes import Attribute
-from six import with_metaclass
+from six import with_metaclass, iteritems
 
 
 class ModelOpts(SchemaOpts):
@@ -17,10 +17,10 @@ class ModelMeta(SchemaMeta):
     def get_declared_fields(mcs, klass, cls_fields, inherited_fields, dict_cls):
         declared_fields = super(ModelMeta, mcs).get_declared_fields(klass, cls_fields, inherited_fields, dict_cls)
         if klass.opts.model:
-            attributes = {name: attr for name, attr in vars(klass.opts.model).iteritems() if
+            attributes = {name: attr for name, attr in iteritems(vars(klass.opts.model)) if
                           isinstance(attr, Attribute)}
             klass.opts.model.attributes = dict()
-            for attr_name, attribute in attributes.iteritems():
+            for attr_name, attribute in iteritems(attributes):
                 field = attribute2field(attribute, klass.opts.validate)
 
                 if field == fields.Nested:
