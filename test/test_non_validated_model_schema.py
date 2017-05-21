@@ -5,6 +5,8 @@ from pynamodb.models import Model
 
 from unittest import TestCase
 
+from os import environ
+
 
 class Location(MapAttribute):
     latitude = NumberAttribute()
@@ -27,7 +29,7 @@ class OfficeEmployeeMap(MapAttribute):
 class Office(Model):
     class Meta:
         table_name = 'OfficeModel'
-        host = "http://localhost:8000"
+        host = "http://localhost:{}".format(environ['DOCKER_PORT'])
 
     office_id = NumberAttribute(hash_key=True)
     address = Location()
