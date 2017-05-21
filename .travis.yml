@@ -9,7 +9,7 @@ services:
 before_install:
   - docker run -d --name dynamodb -p 0:8000 deangiberson/aws-dynamodb-local
   - export DOCKER_PORT=$(docker port dynamodb 8000 | cut -d ':' -f 2)
-install: "pip install -Ur requirements.txt"
+install: pip install -U .
 script: pytest test/
 after_script:
   - docker kill dynamodb
