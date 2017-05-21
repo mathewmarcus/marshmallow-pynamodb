@@ -4,6 +4,9 @@ marshmallow-pynamodb
 .. image:: https://badge.fury.io/py/marshmallow-pynamodb.svg
     :target: http://badge.fury.io/py/marshmallow-pynamodb
     :alt: Latest version
+.. image:: https://travis-ci.org/mathewmarcus/marshmallow-pynamodb.svg?branch=master
+    :target: https://travis-ci.org/mathewmarcus/marshmallow-pynamodb
+    :alt: Travis-CI
 
 `PynamoDB <https://pynamodb.readthedocs.io/en/latest/>`_ integration with the  `marshmallow <https://marshmallow.readthedocs.io/en/latest/>`_ (de)serialization library.
 
