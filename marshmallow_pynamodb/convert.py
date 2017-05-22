@@ -2,7 +2,7 @@ from marshmallow import fields
 
 from pynamodb import attributes
 
-from marshmallow_pynamodb.fields import PynamoDict
+from marshmallow_pynamodb.fields import PynamoDict, PynamoNested
 
 PYNAMODB_TYPE_MAPPING = {
     attributes.NumberAttribute: fields.Number,
@@ -10,7 +10,7 @@ PYNAMODB_TYPE_MAPPING = {
     attributes.UnicodeAttribute: fields.String,
     attributes.BooleanAttribute: fields.Boolean,
     attributes.UTCDateTimeAttribute: fields.DateTime,
-    attributes.MapAttributeMeta: {True: fields.Nested,
+    attributes.MapAttributeMeta: {True: PynamoNested,
                                   False: PynamoDict},
     attributes.ListAttribute: {True: fields.List,
                                False: fields.Raw}

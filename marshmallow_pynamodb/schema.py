@@ -1,6 +1,7 @@
 from marshmallow import Schema, SchemaOpts, post_load, fields
 from marshmallow.schema import SchemaMeta
 from marshmallow_pynamodb.convert import attribute2field
+from marshmallow_pynamodb.fields import PynamoNested
 from pynamodb.attributes import Attribute
 from six import with_metaclass, iteritems
 
@@ -23,7 +24,7 @@ class ModelMeta(SchemaMeta):
             for attr_name, attribute in iteritems(attributes):
                 field = attribute2field(attribute, klass.opts.validate)
 
-                if field == fields.Nested:
+                if field == PynamoNested:
                     instance_of = type(attribute)
 
                     class Meta:
@@ -36,7 +37,7 @@ class ModelMeta(SchemaMeta):
                         model = attribute.element_type
                         validate = True
                     element_type = type(attribute.element_type.__name__, (ModelSchema, ), {'Meta': Meta})
-                    field = field(fields.Nested(element_type))
+                    field = field(PynamoNested(element_type))
                 else:
                     field = field()
 
