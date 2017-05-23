@@ -103,7 +103,6 @@ Nested models? No problem
     class OfficeSchema(ModelSchema):
         class Meta:
             model = Office
-            validate = True
 
 
     OfficeSchema().load({'office_id': 789,

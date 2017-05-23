@@ -10,7 +10,6 @@ class ModelOpts(SchemaOpts):
     def __init__(self, meta):
         SchemaOpts.__init__(self, meta)
         self.model = getattr(meta, 'model', None)
-        self.validate = getattr(meta, 'validate', False)
 
 
 class ModelMeta(SchemaMeta):
@@ -22,20 +21,18 @@ class ModelMeta(SchemaMeta):
                           isinstance(attr, Attribute)}
             klass.opts.model.attributes = dict()
             for attr_name, attribute in iteritems(attributes):
-                field = attribute2field(attribute, klass.opts.validate)
+                field = attribute2field(attribute)
 
                 if field == PynamoNested:
                     instance_of = type(attribute)
 
                     class Meta:
                         model = instance_of
-                        validate = True
                     sub_model = type(instance_of.__name__, (ModelSchema, ), {'Meta': Meta})
                     field = field(sub_model)
                 elif field == fields.List:
                     class Meta:
                         model = attribute.element_type
-                        validate = True
                     element_type = type(attribute.element_type.__name__, (ModelSchema, ), {'Meta': Meta})
                     field = field(PynamoNested(element_type))
                 else:
