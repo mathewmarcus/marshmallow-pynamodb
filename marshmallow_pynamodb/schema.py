@@ -21,6 +21,9 @@ class ModelMeta(SchemaMeta):
                           isinstance(attr, Attribute)}
             klass.opts.model.attributes = dict()
             for attr_name, attribute in iteritems(attributes):
+                if declared_fields.get(attr_name):
+                    continue
+
                 field = attribute2field(attribute)
 
                 if field == PynamoNested:
