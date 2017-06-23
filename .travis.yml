@@ -2,6 +2,7 @@ language: python
 sudo: required
 group: deprecated-2017Q2
 python:
+  - "3.6"        
   - "3.4"
   - "2.7"
   - "pypy"
