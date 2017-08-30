@@ -49,6 +49,7 @@ class ModelMeta(SchemaMeta):
                     elif attribute.is_range_key:
                         klass.opts.range_key = field_name
 
+                field.default = attribute.default
                 declared_fields[field_name] = field
         return declared_fields
 
