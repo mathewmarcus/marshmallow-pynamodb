@@ -11,7 +11,8 @@ PYNAMODB_TYPE_MAPPING = {
     attributes.BooleanAttribute: fields.Boolean,
     attributes.UTCDateTimeAttribute: fields.DateTime,
     attributes.MapAttributeMeta: PynamoNested,
-    attributes.ListAttribute: fields.List
+    attributes.ListAttribute: fields.List,
+    attributes.NullAttribute: fields.Raw
 }
 
 
