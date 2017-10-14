@@ -61,4 +61,8 @@ class ModelSchema(with_metaclass(ModelMeta, Schema)):
     def hydrate_pynamo_model(self, data):
         hash_key = data.pop(getattr(self.opts, 'hash_key', None), None)
         range_key = data.pop(getattr(self.opts, 'range_key', None), None)
-        return self.opts.model(hash_key=hash_key, range_key=range_key, **data)
+
+        if hash_key or range_key: # this is Model
+            return self.opts.model(hash_key=hash_key, range_key=range_key, **data)
+        else: # this is a MapAttribute
+            return self.opts.model(**data)
