@@ -1,6 +1,6 @@
 from marshmallow_pynamodb import ModelSchema
 
-from pynamodb.attributes import ListAttribute, MapAttribute, NumberAttribute, UnicodeAttribute
+from pynamodb.attributes import ListAttribute, MapAttribute, NumberAttribute, UnicodeAttribute, UnicodeSetAttribute, NumberSetAttribute
 from pynamodb.models import Model
 
 from unittest import TestCase
@@ -34,6 +34,8 @@ class Office(Model):
     office_id = NumberAttribute(hash_key=True)
     address = Location()
     employees = ListAttribute(of=OfficeEmployeeMap)
+    departments = UnicodeSetAttribute()
+    numbers = NumberSetAttribute()
 
 
 class OfficeSchema(ModelSchema):
@@ -63,19 +65,23 @@ class TestValidatedModelSchema(TestCase):
                                                 'age': 33},
                                      'office_location': {'latitude': -20.57989,
                                                          'longitude': 92.30463,
-                                                         'name': 'yal'}}]}
+                                                         'name': 'yal'}}],
+                      'departments': ['engineering', 'dev-ops', 'UI/UX', 'sales'],
+                      'numbers': [1, 2, 3, 4, 5, 6]}
 
     def test_load(self):
         self.attrs['office_id'] = self.hash_key
 
         data, errors = OfficeSchema().load(self.attrs)
-
+        
         self.assertTrue(getattr(OfficeSchema, '_declared_fields')['office_id'].required)
         self.assertDictEqual(errors, {})
 
         self.assertIsInstance(data, Office)
         self.assertEqual(data.attribute_values['office_id'], self.hash_key)
         self.assertIsInstance(data.attribute_values['address'], Location)
+        self.assertIsInstance(data.attribute_values['departments'], set)
+        self.assertIsInstance(data.attribute_values['numbers'], set)
         self.assertIsInstance(data.attribute_values['employees'], list)
         self.assertIsInstance(data.attribute_values['employees'][0], OfficeEmployeeMap)
         self.assertIsInstance(data.attribute_values['employees'][0]['person'], Person)
@@ -106,6 +112,7 @@ class TestValidatedModelSchema(TestCase):
         self.assertDictEqual(data, self.attrs)
 
     def test_save_and_get_dict(self):
+        self.maxDiff = None
         self.attrs['office_id'] = self.hash_key
 
         office = OfficeSchema().load(self.attrs).data
@@ -113,7 +120,9 @@ class TestValidatedModelSchema(TestCase):
 
         office_model = Office.get(789)
         office_json = OfficeSchema().dump(office_model).data
-
+        office_json['departments'].sort()
+        self.attrs['departments'].sort()
+        
         self.assertDictEqual(office_json, self.attrs)
 
     def test_objs_serialization(self):
@@ -160,7 +169,10 @@ class TestValidatedModelSchema(TestCase):
         office = Office(
             office_id=self.hash_key,
             address=loc,
-            employees=[emp1, emp2]
+            employees=[emp1, emp2],
+            departments=('engineering', 'dev-ops', 'UI/UX', 'sales'),
+            numbers=(1, 2, 3, 4, 5, 6)
+            
         )
 
         office_json = OfficeSchema().dump(office).data
