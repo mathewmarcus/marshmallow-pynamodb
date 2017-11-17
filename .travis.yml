@@ -2,19 +2,26 @@ language: python
 sudo: required
 group: deprecated-2017Q2
 python:
-  - "3.6"        
-  - "3.4"
-  - "2.7"
-  - "pypy"
+- '3.6'
+- '3.4'
+- '2.7'
+- pypy
 env:
-  - AWS_SECRET_ACCESS_KEY=fake_key AWS_ACCESS_KEY_ID=fake_id
+- AWS_SECRET_ACCESS_KEY=fake_key AWS_ACCESS_KEY_ID=fake_id
 services:
-  - docker
+- docker
 before_install:
-  - docker run -d --name dynamodb -p 127.0.0.1:0:8000 deangiberson/aws-dynamodb-local
-  - export DOCKER_PORT=$(docker port dynamodb 8000 | cut -d ':' -f 2)
+- docker run -d --name dynamodb -p 127.0.0.1:0:8000 deangiberson/aws-dynamodb-local
+- export DOCKER_PORT=$(docker port dynamodb 8000 | cut -d ':' -f 2)
 install: pip install -U .
 script: pytest test/
 after_script:
-  - docker kill dynamodb
-  - docker rm -f dynamodb
+- docker kill dynamodb
+- docker rm -f dynamodb
+deploy:
+  provider: pypi
+  user: mathewmarcus
+  password:
+    secure: X74zu+vp1yyLtBYCW2qZfi0OhZwWLD9nd51ZlJxXT6Sof0Wajmiysn+dLcaH5DgHMH+5Hm6IQnOIHdYsCflF4BUdKwxaDwfShe152qWG4Iumeuxem0Iu9AvbOG/IHHVcnm6n+rJ02+9pQg1/NeMVAagkmpKPcpwiH2uFoFgfpe/wRNC4l0hGHEFAeOq9aEmfHPrqqPgDENJrcd4hOpx3ZxK8myCSygg1VsK/zvDYElZLoabG4w8IrM9TF4e7uUqzAlLOFloG/NvdrFhzfiq6rtxxDeq+tFDbjhJMFXFXvXBZC0+DNNzIi9fINuqGLRjMwxySbATbFzr3+TwW1e4ROiwyb4iuLpxpNpudhPHb6P22lZWAK2p3E/9o3eD2y/QQIYbYldcIyu/No8d90VjlEILmcelL3K/5LbryCzbqrmMtjrqYFafKnaEIs/JxkYjEfETxwStzcXygs7FK1ETkr4STpIiZQm6TNJsbTbnGVbCMgXYUbwk04x7BSF5/bku1+jGOsB/iP6ro7EmRa/Cf2bV1ywfLU8aGKZEUAxo/uEpi0wMmxLg1yheioeCQNStLoas/TZQJFof0Ppo1oNX9qhu/P6BNViRtxDu9g0zdksPEa4Chn0qxR8XGccsFixEjX3NexiRHxEicc/JoKGTncTZeUl4ZdhYOLR02xJgMBZw=
+  on:
+    tags: deploy
