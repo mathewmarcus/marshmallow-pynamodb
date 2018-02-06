@@ -1,0 +1,18 @@
+[[source]]
+
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+name = "pypi"
+
+
+[dev-packages]
+
+pytest = "*"
+tox = "*"
+mock = "*"
+
+
+[packages]
+
+marshmallow = ">=2.12.2"
+pynamodb = ">=2.0.3"
